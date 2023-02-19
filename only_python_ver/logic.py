@@ -2,18 +2,18 @@ class Logic:
     floor : int = lambda self, x : int(x)
     nroot : float = lambda self, n , x : x ** (1 / n)
     reverse : str = lambda self, s : s[:: -1]
-    validAnagram : bool = lambda self, str1, str2 : sorted(str1) == sorted(str2)
+    valid_anagram : bool = lambda self, str1, str2 : sorted(str1) == sorted(str2)
     sort : list[str] = lambda self, strArr : sorted(strArr)
-    hashmap = {}
-    def __init__(self) -> None:
-        self.hashmap = {}
-        self.hashmap["floor"] = self.floor
-        self.hashmap["nroot"] = self.nroot
-        self.hashmap["reverse"] = self.reverse
-        self.hashmap["validAnagram"] = self.validAnagram
-        self.hashmap["sort"] = self.sort
+    def __init__(self):
+        self.hashmap = {
+            "floor": self.floor,
+            "nroot": self.nroot,
+            "reverse": self.reverse,
+            "validAnagram": self.valid_anagram,
+            "sort": self.sort
+        }
 
-    def translate_JSON_to_function(self, request):
+    def parse_request(self, request):
         func = self.hashmap[request["method"]]
         param_list = request["params"]
         param_types_list = request["param_types"]
