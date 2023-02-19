@@ -79,7 +79,7 @@ class NetworkLogic:
         request_dict = json.loads(request)
         method = request_dict["method"]
         params = request_dict["params"]
-        result = logic.parse_request(method, params)
+        result = logic.parse_request(request_dict)
         result_type = str(type(result))
         response_dict = {
             "results": result,
