@@ -3,7 +3,7 @@ class Logic:
     nroot : float = lambda self, n , x : x ** (1 / n)
     reverse : str = lambda self, s : s[:: -1]
     valid_anagram : bool = lambda self, str1, str2 : sorted(str1) == sorted(str2)
-    sort : list[str] = lambda self, strArr : sorted(strArr)
+    sort : list = lambda self, strArr : sorted(strArr)
     def __init__(self):
         self.hashmap = {
             "floor": self.floor,

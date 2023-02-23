@@ -7,7 +7,8 @@ class NetworkLogic:
     @staticmethod
     def start_unix_socket_server() -> None:
         with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as sock:
-            SERVER_ADDRESS = "./tcp_socket_file"
+            SERVER_ADDRESS = os.path.expanduser("~/tcp_socket_file")
+            print("SERVER_ADDRESS", SERVER_ADDRESS)
 
             NetworkLogic._bind_socket(sock, SERVER_ADDRESS)
             while True:
