@@ -39,8 +39,8 @@ export class SocketClient {
     private static async promptUser(question: string): Promise<string> {
         console.log(question);
         const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
+            input: process.stdin,
+            output: process.stdout
         });
         return new Promise<string>(resolve => {
         rl.question(question, (answer) => {
