@@ -7,20 +7,22 @@ export class SocketClient {
         const socket = new net.Socket();
         const SERVER_ADDRESS = path.join(os.homedir(), "tcp_socket_file");
         console.log("SERVER_ADDRESS is here:" + SERVER_ADDRESS);
+        socket.on("connect", async () => {
+            const methodName = await SocketClient.promptUser("Enter method name in the following options:\nfloor(float x), nroot(int n, int x), reverse(str s), validAnagram(str s1, str s2), sort(list[str] strArr)\n");
+            const params = await SocketClient.promptUser("Parameter?");
+            const paramTypes = await SocketClient.promptUser("Parameter type?");
+            const requestDict = {
+                "method": methodName,
+                "params": params.trim().split(" "),
+                "paramTypes": paramTypes.trim().split(" "),
+                "id": SERVER_ADDRESS,
+            };
+            const request = JSON.stringify(requestDict);
+            console.log(`Sending request: ${request}`);
+            socket.write(request, 'utf-8');
+            console.log("Sent request to the server.");
+        });
         SocketClient.connectToServer(socket, SERVER_ADDRESS);
-        const methodName = await SocketClient.promptUser("Enter method name in the following options:\nfloor(float x), nroot(int n, int x), reverse(str s), validAnagram(str s1, str s2), sort(list[str] strArr)\n");
-        const params = await SocketClient.promptUser("Parameter?");
-        const paramTypes = await SocketClient.promptUser("Parameter type?");
-        const requestDict = {
-            "method": methodName,
-            "params": params.trim().split(" "),
-            "paramTypes": paramTypes.trim().split(" "),
-            "id": SERVER_ADDRESS,
-        };
-        const request = JSON.stringify(requestDict);
-        console.log(`Sending request: ${request}`);
-        socket.write(request, 'utf-8');
-        console.log("Sent request to the server.");
         socket.on('data', (data) => {
             console.log(`Response from server: ${data.toString()}`);
         });
@@ -32,15 +34,14 @@ export class SocketClient {
         });
     }
     static async promptUser(question) {
-        console.log(question);
         const rl = readline.createInterface({
             input: process.stdin,
             output: process.stdout
         });
-        return new Promise(resolve => {
-            rl.question(question, (answer) => {
-                resolve(answer);
+        return new Promise((resolve) => {
+            rl.question(question, answer => {
                 rl.close();
+                resolve(answer);
             });
         });
     }
